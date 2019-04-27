@@ -23,7 +23,7 @@
 #define AFR_OFFSET 0x00075333
 #define FPR_OFFSET 0xFFF14DD2
 
-#define CONVERT(x, y, z) (x * y + z)
+#define CONVERT(f, x, y, z) (f(x) * y + z)
 
 #define AEMNET_BAUDRATE 500000 // kbps
 #define AEMNET_MASK 0x1FFFFFFF
