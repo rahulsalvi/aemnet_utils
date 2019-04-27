@@ -5,7 +5,7 @@
 
 namespace aemnet_utils {
 
-    typedef uint32_t fixed_point_t; // 16.16 format
+    typedef int32_t fixed_point_t; // 16.16 format
 
     void begin();
     void update();

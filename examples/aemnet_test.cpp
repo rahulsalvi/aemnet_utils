@@ -34,7 +34,7 @@ void loop() {
 }
 
 inline float fixed_to_float(fixed_point_t a) {
-    return ((float)a / (float)(1 << 16));
+    return a / 65536.0;
 }
 
 extern "C" int main(void) {
