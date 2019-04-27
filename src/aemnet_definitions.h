@@ -7,12 +7,13 @@
 #define RPM_SCALE 0x00006400
 #define THR_SCALE 0x00000064
 #define BAT_SCALE 0x00000010
+#define MAP_SCALE 0x000003B6
 
 // scaling factors in 8.16 format
 #define IAT_SCALE 0x00010000
 #define CLT_SCALE 0x00010000
 #define AFR_SCALE 0x00000EA6
-#define FPR_SCALE 0x000003B6
+#define FPR_SCALE 0x00009484
 
 // offsets in 16.16 format
 #define RPM_OFFSET 0x00000000
@@ -21,7 +22,8 @@
 #define IAT_OFFSET 0x00000000
 #define CLT_OFFSET 0x00000000
 #define AFR_OFFSET 0x00075333
-#define FPR_OFFSET 0xFFF14DD2
+#define MAP_OFFSET 0xFFF14DD2
+#define FPR_OFFSET 0x00000000
 
 #define CONVERT(f, x, y, z) (f(x) * y + z)
 

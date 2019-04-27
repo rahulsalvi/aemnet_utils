@@ -100,5 +100,5 @@ aemnet_utils::fixed_point_t aemnet_utils::bat() {
 }
 
 aemnet_utils::fixed_point_t aemnet_utils::fpr() {
-    return CONVERT(swap_bytes, msg_004.fpr, FPR_SCALE, FPR_OFFSET);
+    return CONVERT(identity8, msg_004.fpr, FPR_SCALE, FPR_OFFSET);
 }
