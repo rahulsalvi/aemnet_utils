@@ -28,38 +28,43 @@
 #define CONVERT(f, x, y, z) (f(x) * y + z)
 
 #define AEMNET_BAUDRATE 500000 // kbps
+#define AEMNET_MSG_SIZE 8      // bytes
 #define AEMNET_MASK 0x1FFFFFFF
-#define AEMNET_FILTER_000 0x01F0A000
-#define AEMNET_FILTER_003 0x01F0A003
-#define AEMNET_FILTER_004 0x01F0A004
+#define AEMNET_MSG_ID_BASE 0x01F0A000
+#define AEMNET_MSG_ID(x) (AEMNET_MSG_ID_BASE + x)
+#define AEMNET_MSG_PER_UPDATE 4
 
 namespace aemnet_utils {
 
-    typedef struct __attribute__((__packed__)) msg_000_t {
+    typedef struct __attribute__((__packed__)) msg_t {
+        uint8_t pad[AEMNET_MSG_SIZE];
+    } msg_t;
+
+    typedef struct __attribute__((__packed__)) msg_00_t {
         uint16_t rpm;
         uint16_t load;
         uint16_t thr;
         int8_t   iat;
         int8_t   clt;
-    } msg_000_t;
+    } msg_00_t;
 
-    typedef struct __attribute__((__packed__)) msg_003_t {
+    typedef struct __attribute__((__packed__)) msg_03_t {
         uint8_t  afr1;
         uint8_t  afr2;
         uint16_t vss;
         uint8_t  gear;
         uint8_t  ign;
         uint16_t bat;
-    } msg_003_t;
+    } msg_03_t;
 
-    typedef struct __attribute__((__packed__)) msg_004_t {
+    typedef struct __attribute__((__packed__)) msg_04_t {
         uint16_t map;
         uint8_t  ve;
         uint8_t  fpr;
         uint8_t  opr;
         uint8_t  afr_tgt;
         uint16_t bitmap;
-    } msg_004_t;
+    } msg_04_t;
 
 } // namespace aemnet_utils
 
