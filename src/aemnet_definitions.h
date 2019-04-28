@@ -32,7 +32,7 @@
 #define AEMNET_MASK 0x1FFFFFFF
 #define AEMNET_MSG_ID_BASE 0x01F0A000
 #define AEMNET_MSG_ID(x) (AEMNET_MSG_ID_BASE + x)
-#define AEMNET_MSG_PER_UPDATE 4
+#define AEMNET_MSG_PER_UPDATE 8
 
 namespace aemnet_utils {
 
@@ -41,30 +41,46 @@ namespace aemnet_utils {
     } msg_t;
 
     typedef struct __attribute__((__packed__)) msg_00_t {
-        uint16_t rpm;
-        uint16_t load;
-        uint16_t thr;
-        int8_t   iat;
-        int8_t   clt;
+        uint16_t rpm;          // RPM
+        uint16_t load;         // deprecated
+        uint16_t throttle;     // percent
+        int8_t   intake_temp;  // degrees C
+        int8_t   coolant_temp; // degrees C
     } msg_00_t;
 
     typedef struct __attribute__((__packed__)) msg_03_t {
-        uint8_t  afr1;
-        uint8_t  afr2;
-        uint16_t vss;
-        uint8_t  gear;
-        uint8_t  ign;
-        uint16_t bat;
+        uint8_t  afr1;            // AFR
+        uint8_t  afr2;            // AFR
+        uint16_t vehicle_speed;   // MPH
+        uint8_t  gear;            // gear
+        uint8_t  ign_timing;      // degrees
+        uint16_t battery_voltage; // Volts
     } msg_03_t;
 
     typedef struct __attribute__((__packed__)) msg_04_t {
-        uint16_t map;
-        uint8_t  ve;
-        uint8_t  fpr;
-        uint8_t  opr;
-        uint8_t  afr_tgt;
+        uint16_t manifold_pressure; // PSI
+        uint8_t  ve;                // VE
+        uint8_t  fuel_pressure;     // PSIg
+        uint8_t  oil_pressure;      // PSIg
+        uint8_t  afr_target;        // AFR
         uint16_t bitmap;
     } msg_04_t;
+
+    typedef struct __attribute__((__packed__)) msg_08_t {
+        uint8_t  trans_temp;            // degrees C
+        uint16_t spark_cut;             // RPM
+        uint16_t fuel_cut;              // RPM
+        uint8_t  two_step_target_fuel;  // RPM
+        uint8_t  two_step_target_spark; // RPM
+        uint8_t  bitmap;
+    } msg_08_t;
+
+    typedef struct __attribute__((__packed__)) msg_09_t {
+        uint16_t brake_pressure;      // PSIg
+        uint16_t steering_angle;      // degrees
+        uint16_t launch_boost_target; // PSI
+        uint8_t  pad[2];
+    } msg_09_t;
 
 } // namespace aemnet_utils
 

@@ -8,15 +8,19 @@
 using aemnet_utils::msg_00_t;
 using aemnet_utils::msg_03_t;
 using aemnet_utils::msg_04_t;
+using aemnet_utils::msg_08_t;
+using aemnet_utils::msg_09_t;
 using aemnet_utils::msg_t;
 
 static FlexCAN       canbus(AEMNET_BAUDRATE);
 static CAN_message_t recv_msg;
 
-static msg_t           msg_buf[5];
+static msg_t           msg_buf[10];
 static msg_00_t* const msg_00 = (msg_00_t*)msg_buf + 0x00;
 static msg_03_t* const msg_03 = (msg_03_t*)msg_buf + 0x03;
 static msg_04_t* const msg_04 = (msg_04_t*)msg_buf + 0x04;
+static msg_08_t* const msg_08 = (msg_08_t*)msg_buf + 0x08;
+static msg_09_t* const msg_09 = (msg_09_t*)msg_buf + 0x09;
 
 void aemnet_utils::begin() {
     CAN_filter_t mask;
@@ -24,29 +28,39 @@ void aemnet_utils::begin() {
     mask.ext = 1;
     mask.id  = AEMNET_MASK;
 
-    CAN_filter_t filter_000;
-    filter_000.rtr = 0;
-    filter_000.ext = 1;
-    filter_000.id  = AEMNET_MSG_ID(0x00);
+    CAN_filter_t filter_00;
+    filter_00.rtr = 0;
+    filter_00.ext = 1;
+    filter_00.id  = AEMNET_MSG_ID(0x00);
 
-    CAN_filter_t filter_003;
-    filter_003.rtr = 0;
-    filter_003.ext = 1;
-    filter_003.id  = AEMNET_MSG_ID(0x03);
+    CAN_filter_t filter_03;
+    filter_03.rtr = 0;
+    filter_03.ext = 1;
+    filter_03.id  = AEMNET_MSG_ID(0x03);
 
-    CAN_filter_t filter_004;
-    filter_004.rtr = 0;
-    filter_004.ext = 1;
-    filter_004.id  = AEMNET_MSG_ID(0x04);
+    CAN_filter_t filter_04;
+    filter_04.rtr = 0;
+    filter_04.ext = 1;
+    filter_04.id  = AEMNET_MSG_ID(0x04);
 
-    canbus.setFilter(filter_000, 0);
-    canbus.setFilter(filter_003, 1);
-    canbus.setFilter(filter_004, 2);
-    canbus.setFilter(filter_000, 3);
-    canbus.setFilter(filter_000, 4);
-    canbus.setFilter(filter_000, 5);
-    canbus.setFilter(filter_000, 6);
-    canbus.setFilter(filter_000, 7);
+    CAN_filter_t filter_08;
+    filter_04.rtr = 0;
+    filter_04.ext = 1;
+    filter_04.id  = AEMNET_MSG_ID(0x08);
+
+    CAN_filter_t filter_09;
+    filter_04.rtr = 0;
+    filter_04.ext = 1;
+    filter_04.id  = AEMNET_MSG_ID(0x09);
+
+    canbus.setFilter(filter_00, 0);
+    canbus.setFilter(filter_03, 1);
+    canbus.setFilter(filter_04, 2);
+    canbus.setFilter(filter_08, 3);
+    canbus.setFilter(filter_09, 4);
+    canbus.setFilter(filter_00, 5);
+    canbus.setFilter(filter_00, 6);
+    canbus.setFilter(filter_00, 7);
 
     recv_msg.timeout = 0;
 
@@ -54,10 +68,8 @@ void aemnet_utils::begin() {
 }
 
 void aemnet_utils::update() {
-    int recv_ct = AEMNET_MSG_PER_UPDATE;
-    while (recv_ct && canbus.read(recv_msg)) {
+    for (int i = AEMNET_MSG_PER_UPDATE; i && canbus.read(recv_msg); i--) {
         std::memcpy(&msg_buf[recv_msg.id & 0xFF], recv_msg.buf, sizeof(msg_t));
-        recv_ct--;
     }
 }
 
@@ -74,15 +86,15 @@ aemnet_utils::fixed_point_t aemnet_utils::rpm() {
 }
 
 aemnet_utils::fixed_point_t aemnet_utils::thr() {
-    return CONVERT(swap_bytes, msg_00->thr, THR_SCALE, THR_OFFSET);
+    return CONVERT(swap_bytes, msg_00->throttle, THR_SCALE, THR_OFFSET);
 }
 
 aemnet_utils::fixed_point_t aemnet_utils::iat() {
-    return CONVERT(identity8, msg_00->iat, IAT_SCALE, IAT_OFFSET);
+    return CONVERT(identity8, msg_00->intake_temp, IAT_SCALE, IAT_OFFSET);
 }
 
 aemnet_utils::fixed_point_t aemnet_utils::clt() {
-    return CONVERT(identity8, msg_00->clt, CLT_SCALE, CLT_OFFSET);
+    return CONVERT(identity8, msg_00->coolant_temp, CLT_SCALE, CLT_OFFSET);
 }
 
 aemnet_utils::fixed_point_t aemnet_utils::afr() {
@@ -90,9 +102,9 @@ aemnet_utils::fixed_point_t aemnet_utils::afr() {
 }
 
 aemnet_utils::fixed_point_t aemnet_utils::bat() {
-    return CONVERT(swap_bytes, msg_03->bat, BAT_SCALE, BAT_OFFSET);
+    return CONVERT(swap_bytes, msg_03->battery_voltage, BAT_SCALE, BAT_OFFSET);
 }
 
 aemnet_utils::fixed_point_t aemnet_utils::fpr() {
-    return CONVERT(identity8, msg_04->fpr, FPR_SCALE, FPR_OFFSET);
+    return CONVERT(identity8, msg_04->fuel_pressure, FPR_SCALE, FPR_OFFSET);
 }
