@@ -17,17 +17,17 @@ void loop() {
     Serial.print("RPM: ");
     Serial.println(fixed_to_float(aemnet_utils::rpm()));
     Serial.print("THR: ");
-    Serial.println(fixed_to_float(aemnet_utils::thr()));
+    Serial.println(fixed_to_float(aemnet_utils::throttle()));
     Serial.print("IAT: ");
-    Serial.println(fixed_to_float(aemnet_utils::iat()));
+    Serial.println(fixed_to_float(aemnet_utils::intake_temp_c()));
     Serial.print("CLT: ");
-    Serial.println(fixed_to_float(aemnet_utils::clt()));
+    Serial.println(fixed_to_float(aemnet_utils::coolant_temp_c()));
     Serial.print("AFR: ");
     Serial.println(fixed_to_float(aemnet_utils::afr()));
     Serial.print("BAT: ");
-    Serial.println(fixed_to_float(aemnet_utils::bat()));
+    Serial.println(fixed_to_float(aemnet_utils::battery_voltage()));
     Serial.print("FPR: ");
-    Serial.println(fixed_to_float(aemnet_utils::fpr()));
+    Serial.println(fixed_to_float(aemnet_utils::fuel_pressure()));
     Serial.println("------------------------------");
 
     delay(100);

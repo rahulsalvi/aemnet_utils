@@ -3,27 +3,31 @@
 
 #include <cstdint>
 
-// scaling factors in 0.16 format
-#define RPM_SCALE 0x00006400
-#define THR_SCALE 0x00000064
-#define BAT_SCALE 0x00000010
-#define MAP_SCALE 0x000003B6
+// clang-format off
+#define RPM_SCALE                0x00006400 // 00.16, 0.39063 rpm/bit
+#define RPM_OFFSET               0x00000000 // 16.16, 0.0     rpm
 
-// scaling factors in 8.16 format
-#define IAT_SCALE 0x00010000
-#define CLT_SCALE 0x00010000
-#define AFR_SCALE 0x00000EA6
-#define FPR_SCALE 0x00009484
+#define THROTTLE_SCALE           0x00000064 // 00.16, 0.0015259 percent/bit
+#define THROTTLE_OFFSET          0x00000000 // 16.16, 0.0       percent
 
-// offsets in 16.16 format
-#define RPM_OFFSET 0x00000000
-#define THR_OFFSET 0x00000000
-#define BAT_OFFSET 0x00000000
-#define IAT_OFFSET 0x00000000
-#define CLT_OFFSET 0x00000000
-#define AFR_OFFSET 0x00075333
-#define MAP_OFFSET 0xFFF14DD2
-#define FPR_OFFSET 0x00000000
+#define BATTERY_VOLTAGE_SCALE    0x00000010 // 00.16, 0.0002455 Volts/bit
+#define BATTERY_VOLTAGE_OFFSET   0x00000000 // 16.16, 0.0       Volts
+
+#define MANIFOLD_PRESSURE_SCALE  0x000003B6 // 00.16,  00.014505 PSI/bit
+#define MANIFOLD_PRESSURE_OFFSET 0xFFF14DD2 // 16.16, -14.6960   PSI
+
+#define INTAKE_TEMP_C_SCALE      0x00010000 // 08.16, 1.0 degC/bit
+#define INTAKE_TEMP_C_OFFSET     0x00000000 // 16.16, 0.0 degC
+
+#define COOLANT_TEMP_C_SCALE     0x00010000 // 08.16, 1.0 degC/bit
+#define COOLANT_TEMP_C_OFFSET    0x00000000 // 16.16, 0.0 degC
+
+#define AFR_SCALE                0x00000EA6 // 08.16, 0.057227 AFR/bit
+#define AFR_OFFSET               0x00075333 // 16.16, 7.325    AFR
+
+#define FUEL_PRESSURE_SCALE      0x00009484 // 08.16, 0.580151 PSIg/bit
+#define FUEL_PRESSURE_OFFSET     0x00000000 // 16.16, 0.0      PSIg
+// clang-format on
 
 #define CONVERT(f, x, y, z) (f(x) * y + z)
 
@@ -31,7 +35,7 @@
 #define AEMNET_MSG_SIZE 8      // bytes
 #define AEMNET_MASK 0x1FFFFFFF
 #define AEMNET_MSG_ID_BASE 0x01F0A000
-#define AEMNET_MSG_ID(x) (AEMNET_MSG_ID_BASE + x)
+#define AEMNET_MSG_ID(x) (AEMNET_MSG_ID_BASE | x)
 #define AEMNET_MSG_PER_UPDATE 8
 
 namespace aemnet_utils {

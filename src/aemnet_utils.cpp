@@ -5,6 +5,7 @@
 
 #include <cstring>
 
+using aemnet_utils::fixed_point_t;
 using aemnet_utils::msg_00_t;
 using aemnet_utils::msg_03_t;
 using aemnet_utils::msg_04_t;
@@ -68,7 +69,7 @@ void aemnet_utils::begin() {
 }
 
 void aemnet_utils::update() {
-    for (int i = AEMNET_MSG_PER_UPDATE; i && canbus.read(recv_msg); i--) {
+    for (int recv_ct = AEMNET_MSG_PER_UPDATE; recv_ct && canbus.read(recv_msg); recv_ct--) {
         std::memcpy(&msg_buf[recv_msg.id & 0xFF], recv_msg.buf, sizeof(msg_t));
     }
 }
@@ -81,30 +82,36 @@ inline uint8_t identity8(uint8_t a) {
     return a;
 }
 
-aemnet_utils::fixed_point_t aemnet_utils::rpm() {
+fixed_point_t aemnet_utils::rpm() {
     return CONVERT(swap_bytes, msg_00->rpm, RPM_SCALE, RPM_OFFSET);
 }
 
-aemnet_utils::fixed_point_t aemnet_utils::thr() {
-    return CONVERT(swap_bytes, msg_00->throttle, THR_SCALE, THR_OFFSET);
+fixed_point_t aemnet_utils::throttle() {
+    return CONVERT(swap_bytes, msg_00->throttle, THROTTLE_SCALE, THROTTLE_OFFSET);
 }
 
-aemnet_utils::fixed_point_t aemnet_utils::iat() {
-    return CONVERT(identity8, msg_00->intake_temp, IAT_SCALE, IAT_OFFSET);
+fixed_point_t aemnet_utils::intake_temp_c() {
+    return CONVERT(identity8, msg_00->intake_temp, INTAKE_TEMP_C_SCALE, INTAKE_TEMP_C_OFFSET);
 }
 
-aemnet_utils::fixed_point_t aemnet_utils::clt() {
-    return CONVERT(identity8, msg_00->coolant_temp, CLT_SCALE, CLT_OFFSET);
+fixed_point_t aemnet_utils::coolant_temp_c() {
+    return CONVERT(identity8, msg_00->coolant_temp, COOLANT_TEMP_C_SCALE, COOLANT_TEMP_C_OFFSET);
 }
 
-aemnet_utils::fixed_point_t aemnet_utils::afr() {
+fixed_point_t aemnet_utils::afr() {
     return CONVERT(identity8, msg_03->afr1, AFR_SCALE, AFR_OFFSET);
 }
 
-aemnet_utils::fixed_point_t aemnet_utils::bat() {
-    return CONVERT(swap_bytes, msg_03->battery_voltage, BAT_SCALE, BAT_OFFSET);
+fixed_point_t aemnet_utils::battery_voltage() {
+    return CONVERT(
+        swap_bytes, msg_03->battery_voltage, BATTERY_VOLTAGE_SCALE, BATTERY_VOLTAGE_OFFSET);
 }
 
-aemnet_utils::fixed_point_t aemnet_utils::fpr() {
-    return CONVERT(identity8, msg_04->fuel_pressure, FPR_SCALE, FPR_OFFSET);
+fixed_point_t aemnet_utils::fuel_pressure() {
+    return CONVERT(identity8, msg_04->fuel_pressure, FUEL_PRESSURE_SCALE, FUEL_PRESSURE_OFFSET);
+}
+
+fixed_point_t aemnet_utils::manifold_pressure() {
+    return CONVERT(
+        swap_bytes, msg_04->manifold_pressure, MANIFOLD_PRESSURE_SCALE, MANIFOLD_PRESSURE_OFFSET);
 }
