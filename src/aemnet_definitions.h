@@ -1,7 +1,7 @@
 #ifndef AEMNET_DEFINITIONS_H
 #define AEMNET_DEFINITIONS_H
 
-#include <cstdint>
+#include <stdint.h>
 
 // clang-format off
 #define RPM_SCALE                0x00006400 // 00.16, 0.39063 rpm/bit

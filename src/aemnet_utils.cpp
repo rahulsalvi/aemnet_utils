@@ -3,7 +3,7 @@
 
 #include "FlexCAN.h"
 
-#include <cstring>
+#include <string.h>
 
 using aemnet_utils::fixed_point_t;
 using aemnet_utils::msg_00_t;

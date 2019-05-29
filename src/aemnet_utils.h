@@ -1,7 +1,7 @@
 #ifndef AEMNET_UTILS_H
 #define AEMNET_UTILS_H
 
-#include <cstdint>
+#include <stdint.h>
 
 namespace aemnet_utils {
 
