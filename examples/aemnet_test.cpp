@@ -28,6 +28,8 @@ void loop() {
     Serial.println(fixed_to_float(aemnet_utils::battery_voltage()));
     Serial.print("FPR: ");
     Serial.println(fixed_to_float(aemnet_utils::fuel_pressure()));
+    Serial.print("MAP: ");
+    Serial.println(fixed_to_float(aemnet_utils::manifold_pressure()));
     Serial.println("------------------------------");
 
     delay(100);

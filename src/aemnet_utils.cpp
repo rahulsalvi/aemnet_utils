@@ -70,7 +70,7 @@ void aemnet_utils::begin() {
 
 void aemnet_utils::update() {
     for (int recv_ct = AEMNET_MSG_PER_UPDATE; recv_ct && canbus.read(recv_msg); recv_ct--) {
-        std::memcpy(&msg_buf[recv_msg.id & 0xFF], recv_msg.buf, sizeof(msg_t));
+        memcpy(&msg_buf[recv_msg.id & 0xFF], recv_msg.buf, sizeof(msg_t));
     }
 }
 
