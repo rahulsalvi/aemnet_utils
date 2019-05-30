@@ -36,7 +36,7 @@
 #define AEMNET_MASK 0x1FFFFFFF
 #define AEMNET_MSG_ID_BASE 0x01F0A000
 #define AEMNET_MSG_ID(x) (AEMNET_MSG_ID_BASE | x)
-#define AEMNET_MSG_PER_UPDATE 8
+#define AEMNET_MSG_PER_UPDATE 16
 
 namespace aemnet_utils {
 

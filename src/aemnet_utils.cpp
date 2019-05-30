@@ -45,14 +45,14 @@ void aemnet_utils::begin() {
     filter_04.id  = AEMNET_MSG_ID(0x04);
 
     CAN_filter_t filter_08;
-    filter_04.rtr = 0;
-    filter_04.ext = 1;
-    filter_04.id  = AEMNET_MSG_ID(0x08);
+    filter_08.rtr = 0;
+    filter_08.ext = 1;
+    filter_08.id  = AEMNET_MSG_ID(0x08);
 
     CAN_filter_t filter_09;
-    filter_04.rtr = 0;
-    filter_04.ext = 1;
-    filter_04.id  = AEMNET_MSG_ID(0x09);
+    filter_09.rtr = 0;
+    filter_09.ext = 1;
+    filter_09.id  = AEMNET_MSG_ID(0x09);
 
     canbus.setFilter(filter_00, 0);
     canbus.setFilter(filter_03, 1);
