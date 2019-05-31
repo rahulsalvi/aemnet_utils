@@ -7,8 +7,8 @@ namespace aemnet_utils {
 
     typedef int32_t fixed_point_t; // 16.16 format
 
-    void begin();
-    void update();
+    void    begin();
+    uint8_t update();
 
     fixed_point_t rpm();
     fixed_point_t throttle();

@@ -68,10 +68,12 @@ void aemnet_utils::begin() {
     canbus.begin(mask);
 }
 
-void aemnet_utils::update() {
-    for (int recv_ct = AEMNET_MSG_PER_UPDATE; recv_ct && canbus.read(recv_msg); recv_ct--) {
+uint8_t aemnet_utils::update() {
+    uint8_t recv_ct;
+    for (recv_ct = AEMNET_MSG_PER_UPDATE; recv_ct && canbus.read(recv_msg); recv_ct--) {
         memcpy(&msg_buf[recv_msg.id & 0xFF], recv_msg.buf, sizeof(msg_t));
     }
+    return AEMNET_MSG_PER_UPDATE - recv_ct;
 }
 
 inline uint16_t swap_bytes(uint16_t a) {
