@@ -27,6 +27,9 @@
 
 #define FUEL_PRESSURE_SCALE      0x00009484 // 08.16, 0.580151 PSIg/bit
 #define FUEL_PRESSURE_OFFSET     0x00000000 // 16.16, 0.0      PSIg
+
+#define FUEL_PUMP_ON_MASK (1 << 0)
+#define FAN_ON_MASK       (1 << 1)
 // clang-format on
 
 #define CONVERT(f, x, y, z) (f(x) * y + z)
@@ -67,7 +70,8 @@ namespace aemnet_utils {
         uint8_t  fuel_pressure;     // PSIg
         uint8_t  oil_pressure;      // PSIg
         uint8_t  afr_target;        // AFR
-        uint16_t bitmap;
+        uint8_t  bitmap0;
+        uint8_t  bitmap1;
     } msg_04_t;
 
     typedef struct __attribute__((__packed__)) msg_08_t {

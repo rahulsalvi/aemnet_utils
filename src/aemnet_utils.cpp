@@ -117,3 +117,11 @@ fixed_point_t aemnet_utils::manifold_pressure() {
     return CONVERT(
         swap_bytes, msg_04->manifold_pressure, MANIFOLD_PRESSURE_SCALE, MANIFOLD_PRESSURE_OFFSET);
 }
+
+bool aemnet_utils::fuel_pump_on() {
+    return msg_04->bitmap0 & FUEL_PUMP_ON_MASK;
+}
+
+bool aemnet_utils::coolant_fan_on() {
+    return msg_04->bitmap0 & FAN_ON_MASK;
+}

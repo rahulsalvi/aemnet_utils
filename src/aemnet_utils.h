@@ -19,6 +19,9 @@ namespace aemnet_utils {
     fixed_point_t fuel_pressure();
     fixed_point_t manifold_pressure();
 
+    bool fuel_pump_on();
+    bool coolant_fan_on();
+
 } // namespace aemnet_utils
 
 #endif // AEMNET_UTILS_H

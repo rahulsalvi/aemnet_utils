@@ -30,6 +30,10 @@ void loop() {
     Serial.println(fixed_to_float(aemnet_utils::fuel_pressure()));
     Serial.print("MAP: ");
     Serial.println(fixed_to_float(aemnet_utils::manifold_pressure()));
+    Serial.print("PMP: ");
+    Serial.println(aemnet_utils::fuel_pump_on() ? "ON" : "OFF");
+    Serial.print("FAN: ");
+    Serial.println(aemnet_utils::coolant_fan_on() ? "ON" : "OFF");
     Serial.println("------------------------------");
 
     delay(100);
